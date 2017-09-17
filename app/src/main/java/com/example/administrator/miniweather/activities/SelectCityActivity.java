@@ -56,12 +56,6 @@ public class SelectCityActivity extends BaseActivity {
         MenuItem menuItem = menu.findItem(R.id.action_search);//在菜单中找到对应控件的item
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         RxSearchView.queryTextChanges(searchView)
-//                .filter(charSequence -> {
-//                    if (TextUtils.isEmpty(charSequence)) {
-//
-//                    }
-//                    return !TextUtils.isEmpty(charSequence);
-//                })
                 .map(charSequence -> {
 
                     Stream.of(selectCityFragment.cities)

@@ -16,6 +16,9 @@ import com.example.administrator.miniweather.R;
 import com.example.administrator.miniweather.database.dao.WeatherDao;
 import com.example.administrator.miniweather.models.adapter.MiWeatherAdapter;
 import com.example.administrator.miniweather.models.adapter.WeatherAdapter;
+import com.example.administrator.miniweather.preferences.Preferences;
+import com.example.administrator.miniweather.preferences.WeatherSettings;
+import com.example.administrator.miniweather.utils.NetworkUtil;
 import com.example.api.ApiClient;
 import com.example.library.activity.BaseActivity;
 
@@ -51,7 +54,13 @@ public class MainActivity extends BaseActivity
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
 
-        ApiClient.weatherService.getMiWeather("101010100")
+        if(!NetworkUtil.isNetworkConnected(this)){
+            return;
+        }
+
+        String cityId = Preferences.getSharedPreferences().getString(WeatherSettings.SETTINGS_CURRENT_CITY_ID.getId(), "");
+
+        ApiClient.weatherService.getMiWeather(cityId)
                 .map(miWeather -> {
                     WeatherAdapter weather = new MiWeatherAdapter(miWeather);
                     try {
